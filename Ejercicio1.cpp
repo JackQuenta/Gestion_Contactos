@@ -29,19 +29,30 @@ int numContactos = 0;
 void agregarContacto() {
     cout << "\n=== AGREGAR CONTACTO ===" << endl;
     cout << "Nombre completo: ";
-    cin.ignore();
     getline(cin, contactos[numContactos].nombreCompleto);
     
     cout << "Sexo (m para masculino/f para femenino): ";
     cin >> contactos[numContactos].sexo;
-    
+    while (contactos[numContactos].sexo != 'm' && contactos[numContactos].sexo != 'f') {
+    	cout << "Opcion incorrecta, ingrese m o f: ";
+    	cin >> contactos[numContactos].sexo;
+	}
     cout << "Edad: ";
     cin >> contactos[numContactos].edad;
+    while (contactos[numContactos].edad < 0 || contactos[numContactos].edad > 100) {
+    	cout << "Ingrese una edad correcta (0-100): ";
+    	cin >> contactos[numContactos].edad;
+	}
     
     cout << "Telefono: ";
-    cin.ignore();
-    getline(cin, contactos[numContactos].telefono);
-    
+	cin.ignore();
+	getline(cin, contactos[numContactos].telefono);
+
+	while (contactos[numContactos].telefono.length() != 9 || contactos[numContactos].telefono[0] != '9') {
+    	cout << "Ingrese un número válido de 9 dígitos que comience con 9: ";
+    	getline(cin, contactos[numContactos].telefono);
+	}
+   
     cout << "Email: ";
     getline(cin, contactos[numContactos].email);
     
@@ -56,20 +67,24 @@ void eliminarContacto() {
     string nombreBuscar;
     cout << "\n=== ELIMINAR CONTACTO ===" << endl;
     cout << "Ingrese el nombre del contacto a eliminar: ";
-    cin.ignore();
     getline(cin, nombreBuscar);
-
+    
+	bool encontrado = false;
     for (int i = 0; i < numContactos; i++) {
         if (contactos[i].nombreCompleto == nombreBuscar) {
             for (int j = i; j < numContactos - 1; j++) {
                 contactos[j] = contactos[j + 1];
-            }
+        	}
             numContactos--;
-            cout << "Contacto Eliminado" << endl;
-            return;
+			encontrado = true;
+       		break;
         }
     }
-    cout << "Contacto no encontrado." << endl;
+    if (encontrado == true) {
+    	cout << "Contacto Eliminado" << endl;
+	} else {
+    	cout << "Contacto no encontrado." << endl;
+	}
 }
 
 void mostrarContactos() {
@@ -122,7 +137,7 @@ void mostrarContactosOrdenados() {
             cout << "Nombre: " << copia[i].nombreCompleto << endl;
     		cout << "Email : " << copia[i].email << endl;
     		cout << "Sexo  : " << copia[i].sexo << endl;
-   			cout << "Edad  : " << copia[i].edad << endl;
+			cout << "Edad  : " << copia[i].edad << endl;
     		cout << "Tel.  : " << copia[i].telefono << endl;
         }
 }
@@ -139,6 +154,7 @@ int main() {
         cout << "e) Salir del programa" << endl;
 		char op;
         cin >> op;
+        cin.ignore();
         
         switch(op) {
             case 'a':
