@@ -85,6 +85,48 @@ void mostrarContactos() {
     }
 }
 
+string extraerServidor(const string& email) {
+    int posicion = email.find('@');
+    string servidor;
+    if (posicion >= 0) {
+        servidor = email.substr(posicion + 1);
+    }
+    return servidor;
+}
+
+void mostrarContactosOrdenados() {
+    cout << "\n=== CONTACTOS ORDENADOS POR CORREO ===" << endl;
+        contactoEmail copia[100];
+        for (int i = 0; i < numContactos; i++) {
+            copia[i] = contactos[i];
+        }
+        for (int i = 0; i < numContactos - 1; i++) {
+            for (int j = 0; j < numContactos - i - 1; j++) {
+                string servidor1 = extraerServidor(copia[j].email);
+                string servidor2 = extraerServidor(copia[j + 1].email);
+                if (servidor1 > servidor2) {
+                    contactoEmail temp = copia[j];
+                    copia[j] = copia[j + 1];
+                    copia[j + 1] = temp;
+                }
+            }
+        }
+
+        string servidorActual = "";
+        for (int i = 0; i < numContactos; i++) {
+            string servidor = extraerServidor(copia[i].email);
+            if (servidor != servidorActual) {
+                cout << "\n--- " << servidor << " ---" << endl;
+                servidorActual = servidor;
+            }
+            cout << "Nombre: " << copia[i].nombreCompleto << endl;
+    		cout << "Email : " << copia[i].email << endl;
+    		cout << "Sexo  : " << copia[i].sexo << endl;
+   			cout << "Edad  : " << copia[i].edad << endl;
+    		cout << "Tel.  : " << copia[i].telefono << endl;
+        }
+}
+
 
 int main() {
 	int salir = 0;
@@ -107,6 +149,9 @@ int main() {
                 break;  
 			case 'c':
                 mostrarContactos();
+                break;
+			case 'd':
+                mostrarContactosOrdenados();
                 break;   
             case 'e':
                 salir = 1;
