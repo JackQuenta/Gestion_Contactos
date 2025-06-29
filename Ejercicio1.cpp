@@ -12,6 +12,7 @@ El programa debe mantenerse en ejecución continuamente hasta que usuario indique
 
 #include <iostream>
 #include <string>
+#include <locale.h>
 using namespace std;
 
 struct contactoEmail {
@@ -144,6 +145,7 @@ void mostrarContactosOrdenados() {
 
 
 int main() {
+	setlocale(LC_CTYPE, "");
 	int salir = 0;
     do {
         cout << "\n=== GESTION DE CONTACTOS ===" << endl;
