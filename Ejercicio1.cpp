@@ -28,8 +28,8 @@ int numContactos = 0;
 
 void agregarContacto() {
     cout << "\n=== AGREGAR CONTACTO ===" << endl;
-    cin.ignore();
     cout << "Nombre completo: ";
+    cin.ignore();
     getline(cin, contactos[numContactos].nombreCompleto);
     
     cout << "Sexo (m para masculino/f para femenino): ";
@@ -38,8 +38,8 @@ void agregarContacto() {
     cout << "Edad: ";
     cin >> contactos[numContactos].edad;
     
-    cin.ignore();
     cout << "Telefono: ";
+    cin.ignore();
     getline(cin, contactos[numContactos].telefono);
     
     cout << "Email: ";
@@ -52,14 +52,49 @@ void agregarContacto() {
     cout << "Contacto agregado exitosamente!" << endl;
 }
 
+void eliminarContacto() {
+    string nombreBuscar;
+    cout << "\n=== ELIMINAR CONTACTO ===" << endl;
+    cout << "Ingrese el nombre del contacto a eliminar: ";
+    cin.ignore();
+    getline(cin, nombreBuscar);
+
+    for (int i = 0; i < numContactos; i++) {
+        if (contactos[i].nombreCompleto == nombreBuscar) {
+            for (int j = i; j < numContactos - 1; j++) {
+                contactos[j] = contactos[j + 1];
+            }
+            numContactos--;
+            cout << "Contacto Eliminado" << endl;
+            return;
+        }
+    }
+    cout << "Contacto no encontrado." << endl;
+}
+
+void mostrarContactos() {
+    cout << "\n=== CONTACTOS ===" << endl;
+    for (int i = 0; i < numContactos; i++) {
+        cout << "\nContacto " << (i+1) << ":" << endl;
+        cout << "Nombre: " << contactos[i].nombreCompleto << endl;
+        cout << "Sexo: " << contactos[i].sexo << endl;
+        cout << "Edad: " << contactos[i].edad << endl;
+        cout << "Telefono: " << contactos[i].telefono << endl;
+        cout << "Email: " << contactos[i].email << endl;
+        cout << "Nacionalidad: " << contactos[i].nacionalidad << endl;
+    }
+}
 
 
 int main() {
 	int salir = 0;
     do {
         cout << "\n=== GESTION DE CONTACTOS ===" << endl;
-        cout << "a) Agregar un contacto" << endl; 
-		cout << "b) Salir del programa" << endl;
+        cout << "a) Agregar un contacto" << endl;
+        cout << "b) Eliminar un contacto" << endl;
+        cout << "c) Mostrar listado general de contactos registrados hasta ese momento." << endl;
+        cout << "d) Mostrar listado de contactos existentes, ordenado por servidor de correo de las cuentas (gmail.com, outlook.com, yahoo.com, etc.)" << endl;
+        cout << "e) Salir del programa" << endl;
 		char op;
         cin >> op;
         
@@ -68,6 +103,12 @@ int main() {
                 agregarContacto();
                 break;
             case 'b':
+                eliminarContacto();
+                break;  
+			case 'c':
+                mostrarContactos();
+                break;   
+            case 'e':
                 salir = 1;
                 break;
             default:
